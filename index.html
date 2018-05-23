@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<div class = "button-list">
+    <button id = "bubbleStart" class = "button">冒泡排序</button>
+    <button id = "insertStart" class = "button">直接插入排序</button>
+    <button id = "shellStart" class = "button">希尔排序</button>
+    <button id = "selectStart" class = "button">选择排序</button>
+    <button id = "heapStart" class = "button">堆排序</button>
+    <button id = "quickStart" class = "button">快速排序</button>
+    <button id = "reset" class = "button">重置</button>
+</div>
+<div class = "stage" id="domTree">
+</div>
+
+<script>
+    /******************排序算法*******************************/
+    /**
+     生成record
+     @param arr 待排序数组
+     */
+    function createRecord(arr){
+        let record = [], len = arr.length;
+        for(let i=0; i< len; i++){
+            record[i] = {
+                "data" : arr[i],
+                "index" : i,
+            };
+        }
+        return record;
+    }
+    /***************************************************************/
+    /**
+     设置演示用的dom的样式
+     @param doms dom对象
+     @param arr 待排序数组
+     */
+    function domStyle(doms,arr){
+        const MAX = 255;
+        const MIN = 0;
+        for(let i = 0,len = doms.length; i < len; i++){
+            /*颜色随机生成*/
+            let r = Math.floor(Math.random()*(MAX-MIN+1) + MIN);
+            let g = Math.floor(Math.random()*(MAX-MIN+1) + MIN);
+            let b = Math.floor(Math.random()*(MAX-MIN+1) + MIN);
+            doms[i].innerText = arr[i];
+            let startColor = "rgba(" + 255 + "," + 255 + "," + 255 + "," + 0 + ")";
+            let endColor = "rgba(" + r + "," + g + "," + b + "," + 1 + ")";
+            doms[i].style.background = "radial-gradient(circle at 50% 50%,"+startColor+","+ endColor+")";
+            reset(doms);
+        }
+    }
+    /**
+     重置
+     @param doms
+     */
+    function reset(doms){
+        let w = doms[0].offsetWidth;
+        for(let i=0,len=doms.length; i<len; i++){
+            doms[i].style.left = w * i + "px";
+        }
+    }
+    /**
+     生成完全二叉树样式
+     @param doms 球体数组
+     */
+    function createTree(){
+        var pdom=document.getElementById("domTree");
+            for(var i=0;i<arr.length;i++){
+               var pdiv = document.createElement("div");
+               var cdiv=document.createElement("div");
+               pdiv.setAttribute("class","bubble");
+               cdiv.setAttribute("class","shadow");
+               pdiv.appendChild(cdiv);
+               pdom.appendChild(pdiv);
+            }
+    }
+    /**
+     演示
+     @param doms 演示用的dom对象
+     @param arr states数组对象
+     @param btn 对应按钮
+     */
+    function domOpera(doms,arr,btn){
+        let i = 0,len = arr.length;
+        btn.setAttribute("disabled","disabled");
+        console.log(arr);
+        /*
+        for(let i = 0; i<arr.length; i++){
+            timeout(i);
+        }*/
+        function timeout(){
+            if(timer){
+                clearTimeout(timer);
+            }
+            timer = setTimeout(function(){
+                let tempLeft = doms[arr[i].first].style.left;
+                //doms[arr[i].first].style.transform = "translateX(" + doms[arr[i].second].style.left + ")";
+                doms[arr[i].first].style.left = doms[arr[i].second].style.left;
+                doms[arr[i].second].style.left = tempLeft;
+                i++;
+                if(i<len) timeout();
+                else{
+                    timer = setTimeout(function(){
+                        /*reset(doms);*/
+                        btn.removeAttribute("disabled");
+                    },2000);
+                }
+            },1000);
+        }
+        timeout();
+    }
+    let timer = null;
+    let arr = [1,2,8,4,3,6,5]; //待排序数组
+    createTree();
+    window.onload = function(){
+        let doms = document.getElementsByClassName("bubble"); //doms对象
+        let btns = document.getElementsByClassName("button"); //button
+        domStyle(doms,arr); //显示球体样式
+        //绑定事件
+        btns[0].onclick = function(){
+            domOpera(doms,bubbleSort(arr),this);
+        }
+        btns[1].onclick = function(){
+            domOpera(doms,insertSort(arr),this);
+        }
+        btns[2].onclick = function(){
+            domOpera(doms,shellSort(arr),this);
+        }
+        btns[3].onclick = function(){
+            domOpera(doms,selectSort(arr),this);
+        }
+        btns[4].onclick = function(){
+            createTree(doms);//生成完成二叉树样式
+            domOpera(doms,heapSort(arr),this);
+        }
+        btns[5].onclick = function(){
+            domOpera(doms,quickSort(arr),this);
+        }
+        //重置
+        btns[6].onclick = function(){
+            clearTimeout(timer);
+            /*  for(let i=0; i<9; i++){
+                  if(btns[i].hasAttribute("disabled")){
+                      btns[i].removeAttribute("disabled");
+                      break;
+                  }
+              }*/
+            reset(doms);
+        }
+    }
+</script>
+<script src="js/bubbleSort.js"></script>
+<script src="js/heapSort.js"></script>
+<script src="js/insertSort.js"></script>
+<script src="js/quickSort.js"></script>
+<script src="js/selectSort.js"></script>
+<script src="js/shellSort.js"></script>
+</body>
+
+</html>
