@@ -17,10 +17,12 @@
     transform: rotateX(90deg) translateZ(-150px);
     z-index: -1;
 }
-.stage {
-    position: relative;
+.arr_box{
+    margin-bottom:10px;
 }
+/*.stage {
+    position: relative;
+}*/
 .button-list{
-    position: absolute;
-    top: 100px;
+    margin-bottom:10px;
 }
