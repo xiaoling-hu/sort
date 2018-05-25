@@ -1,3 +1,7 @@
+body{
+font-family: "微软雅黑","serif","sans-serif","cursive","fantasy","monospace";
+font-size:18px;
+}
 .bubble {
     width: 50px;
     height: 50px;
@@ -19,6 +23,12 @@
 }
 .arr_box{
     margin-bottom:10px;
+}
+.arr_box span{
+    display:inline-block;;
+    width:130px;
+    text-align:justify;
+    text-align-last:justify;
 }
 /*.stage {
     position: relative;
